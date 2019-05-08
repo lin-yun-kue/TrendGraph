@@ -1,0 +1,91 @@
+---
+title: "TrendD Predict"
+output: 
+  html_document:
+    code_folding: hide
+---
+
+```{r setup, include=FALSE}
+library("ggplot2", lib.loc="~/R/win-library/3.5")
+library("readxl", lib.loc="~/R/win-library/3.5")
+library("ggplot2", lib.loc="~/R/win-library/3.5")
+library("magrittr", lib.loc="~/R/win-library/3.5")
+library("dplyr", lib.loc="~/R/win-library/3.5")
+library("ggrepel", lib.loc="~/R/win-library/3.5")
+xlsx_file <- './PricePredictD.xlsx'
+xlsx_df <- read_excel(xlsx_file)
+```
+
+## BTC Day Predict
+
+```{r btc}
+btc_usdt <- xlsx_df %>% 
+  filter(Pair1 == "BTCUSDT" )
+#View(btc_usdt)
+
+btc_predict_total <- btc_usdt %>% 
+  filter(PredictResult != 0)
+btc_precision_rate <- (btc_predict_total %>% 
+                         filter(PredictIsCorrect == 1) %>% 
+                         count()
+                       )/(btc_predict_total %>% count())
+#print(precision_rate)
+
+color_flag <- c("#FF0000", "#FFFFFF", "#00FF00")
+shape_flag <- c(25, 21, 24)
+
+ggplot(btc_usdt, aes(x = CreateDate, y = ClosePrice)) +
+  geom_line() +
+  geom_point(aes(fill = factor(PredictIsCorrect), shape = factor(PredictResult)), 
+             size=4,
+             stroke=0) +
+  scale_fill_manual(values = color_flag, name = "IsCorrect", labels = c('Wrong', 'Unknow', 'Correct')) +
+  scale_shape_manual(values = shape_flag, name = "PredictTrend", labels = c('Down', 'Unknow', 'Up')) +
+  geom_label_repel(aes(label=ifelse(PredictResult == 0, 
+                                    "", 
+                                    ifelse(PredictResult == 1, 
+                                           round(Long, 1), 
+                                           round(Short, 1)))),
+                   force = 5,
+                   box.padding = 0,
+                   point.padding = 0.6) +
+  labs(x = "Date", y = "Price") +
+  guides(fill = guide_legend(override.aes = list(shape=21)), Precision = guide_legend(title = "Precision")) +
+  ggtitle(paste("BTC_DayPredict:", btc_precision_rate))
+  # geom_text(aes(label=ifelse(PredictResult == 0, "", ifelse(PredictResult == 1, Long, Short))), hjust=0, vjust=-2, size=3) +
+
+```
+
+## ETH Day Predict
+
+```{r eth}
+eth_usdt <- xlsx_df %>%
+  filter(Pair1 == "ETHUSDT" )
+# View(eth_usdt)
+
+eth_predict_total <- eth_usdt %>% 
+  filter(PredictResult != 0)
+eth_precision_rate <- (eth_predict_total %>% 
+                         filter(PredictIsCorrect == 1) %>% 
+                         count()
+                      )/(eth_predict_total %>% count())
+
+ggplot(eth_usdt, aes(x = CreateDate, y = ClosePrice)) +
+  geom_line() +
+  geom_point(aes(fill = factor(PredictIsCorrect), shape = factor(PredictResult)), 
+             size=4,
+             stroke=0) +
+  scale_fill_manual(values = color_flag, name = "IsCorrect", labels = c('Wrong', 'Unknow', 'Correct')) +
+  scale_shape_manual(values = shape_flag, name = "PredictTrend", labels = c('Down', 'Unknow', 'Up')) +
+  geom_label_repel(aes(label=ifelse(PredictResult == 0, 
+                                    "", 
+                                    ifelse(PredictResult == 1, 
+                                           round(Long, 1), 
+                                           round(Short, 1)))),
+                   force = 5,
+                   box.padding = 0,
+                   point.padding = 0.6) +
+  labs(x = "Date", y = "Price") +
+  guides(fill = guide_legend(override.aes = list(shape=21)), Precision = guide_legend(title = "Precision")) +
+  ggtitle(paste("ETH_DayPredict:", eth_precision_rate))
+```

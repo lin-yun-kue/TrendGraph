@@ -1,0 +1,3511 @@
+\documentclass[]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\hypersetup{unicode=true,
+            pdftitle={TrendD Predict},
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+%%% Use protect on footnotes to avoid problems with footnotes in titles
+\let\rmarkdownfootnote\footnote%
+\def\footnote{\protect\rmarkdownfootnote}
+
+%%% Change title format to be more compact
+\usepackage{titling}
+
+% Create subtitle command for use in maketitle
+\providecommand{\subtitle}[1]{
+  \posttitle{
+    \begin{center}\large#1\end{center}
+    }
+}
+
+\setlength{\droptitle}{-2em}
+
+  \title{TrendD Predict}
+    \pretitle{\vspace{\droptitle}\centering\huge}
+  \posttitle{\par}
+    \author{}
+    \preauthor{}\postauthor{}
+    \date{}
+    \predate{}\postdate{}
+  
+
+\begin{document}
+\maketitle
+
+\subsection{BTC Day Predict}\label{btc-day-predict}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{btc_usdt <-}\StringTok{ }\NormalTok{xlsx_df }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{filter}\NormalTok{(Pair1 }\OperatorTok{==}\StringTok{ "BTCUSDT"}\NormalTok{ )}
+\CommentTok{#View(btc_usdt)}
+
+\NormalTok{btc_predict_total <-}\StringTok{ }\NormalTok{btc_usdt }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{filter}\NormalTok{(PredictResult }\OperatorTok{!=}\StringTok{ }\DecValTok{0}\NormalTok{)}
+\NormalTok{btc_precision_rate <-}\StringTok{ }\NormalTok{(btc_predict_total }\OperatorTok{%>%}\StringTok{ }
+\StringTok{                         }\KeywordTok{filter}\NormalTok{(PredictIsCorrect }\OperatorTok{==}\StringTok{ }\DecValTok{1}\NormalTok{) }\OperatorTok{%>%}\StringTok{ }
+\StringTok{                         }\KeywordTok{count}\NormalTok{()}
+\NormalTok{                       )}\OperatorTok{/}\NormalTok{(btc_predict_total }\OperatorTok{%>%}\StringTok{ }\KeywordTok{count}\NormalTok{())}
+\CommentTok{#print(precision_rate)}
+
+\NormalTok{color_flag <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"#FF0000"}\NormalTok{, }\StringTok{"#FFFFFF"}\NormalTok{, }\StringTok{"#00FF00"}\NormalTok{)}
+\NormalTok{shape_flag <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\DecValTok{25}\NormalTok{, }\DecValTok{21}\NormalTok{, }\DecValTok{24}\NormalTok{)}
+
+\KeywordTok{ggplot}\NormalTok{(btc_usdt, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ CreateDate, }\DataTypeTok{y =}\NormalTok{ ClosePrice)) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{geom_line}\NormalTok{() }\OperatorTok{+}
+\StringTok{  }\KeywordTok{geom_point}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{fill =} \KeywordTok{factor}\NormalTok{(PredictIsCorrect), }\DataTypeTok{shape =} \KeywordTok{factor}\NormalTok{(PredictResult)), }
+             \DataTypeTok{size=}\DecValTok{4}\NormalTok{,}
+             \DataTypeTok{stroke=}\DecValTok{0}\NormalTok{) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{scale_fill_manual}\NormalTok{(}\DataTypeTok{values =}\NormalTok{ color_flag, }\DataTypeTok{name =} \StringTok{"IsCorrect"}\NormalTok{, }\DataTypeTok{labels =} \KeywordTok{c}\NormalTok{(}\StringTok{'Wrong'}\NormalTok{, }\StringTok{'Unknow'}\NormalTok{, }\StringTok{'Correct'}\NormalTok{)) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{scale_shape_manual}\NormalTok{(}\DataTypeTok{values =}\NormalTok{ shape_flag, }\DataTypeTok{name =} \StringTok{"PredictTrend"}\NormalTok{, }\DataTypeTok{labels =} \KeywordTok{c}\NormalTok{(}\StringTok{'Down'}\NormalTok{, }\StringTok{'Unknow'}\NormalTok{, }\StringTok{'Up'}\NormalTok{)) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{geom_label_repel}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{label=}\KeywordTok{ifelse}\NormalTok{(PredictResult }\OperatorTok{==}\StringTok{ }\DecValTok{0}\NormalTok{, }
+                                    \StringTok{""}\NormalTok{, }
+                                    \KeywordTok{ifelse}\NormalTok{(PredictResult }\OperatorTok{==}\StringTok{ }\DecValTok{1}\NormalTok{, }
+                                           \KeywordTok{round}\NormalTok{(Long, }\DecValTok{1}\NormalTok{), }
+                                           \KeywordTok{round}\NormalTok{(Short, }\DecValTok{1}\NormalTok{)))),}
+                   \DataTypeTok{force =} \DecValTok{5}\NormalTok{,}
+                   \DataTypeTok{box.padding =} \DecValTok{0}\NormalTok{,}
+                   \DataTypeTok{point.padding =} \FloatTok{0.6}\NormalTok{) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{x =} \StringTok{"Date"}\NormalTok{, }\DataTypeTok{y =} \StringTok{"Price"}\NormalTok{) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{guides}\NormalTok{(}\DataTypeTok{fill =} \KeywordTok{guide_legend}\NormalTok{(}\DataTypeTok{override.aes =} \KeywordTok{list}\NormalTok{(}\DataTypeTok{shape=}\DecValTok{21}\NormalTok{)), }\DataTypeTok{Precision =} \KeywordTok{guide_legend}\NormalTok{(}\DataTypeTok{title =} \StringTok{"Precision"}\NormalTok{)) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{ggtitle}\NormalTok{(}\KeywordTok{paste}\NormalTok{(}\StringTok{"BTC_DayPredict:"}\NormalTok{, btc_precision_rate))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <e4>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <b8>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <89>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <e5>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <9b>
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <9b>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <e5>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <9b>
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <9b>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <e4>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <ba>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <94>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <e4>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <b8>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <89>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <e5>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <9b>
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <9b>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <e5>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <9b>
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <9b>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <e4>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <ba>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <94>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <e4>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <b8>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <89>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <e5>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <9b>
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <9b>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <e5>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <9b>
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <9b>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <e4>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <ba>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <94>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <e4>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <b8>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <89>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <e5>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <9b>
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <9b>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <e5>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <9b>
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <9b>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <e4>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <ba>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <94>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <e4>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <b8>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <89>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <e5>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <9b>
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <9b>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <e5>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <9b>
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <9b>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <e4>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <ba>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <94>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <e4>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <b8>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <89>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <e5>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <9b>
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <9b>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <e5>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <9b>
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <9b>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <e4>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <ba>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <94>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <e4>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <b8>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <89>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <e5>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <9b>
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <9b>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <e5>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <9b>
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <9b>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <e4>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <ba>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <94>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <e4>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <b8>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <89>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <e5>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <9b>
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <9b>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <e5>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <9b>
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <9b>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <e4>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <ba>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <94>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <e4>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <b8>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <89>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <e5>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <9b>
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <9b>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <e5>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <9b>
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <9b>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <e4>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <ba>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <94>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <e4>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <b8>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <89>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <e5>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <9b>
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <9b>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <e5>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <9b>
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <9b>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <e4>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <ba>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <94>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <e4>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <b8>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <89>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <e5>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <9b>
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <9b>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <e5>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <9b>
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <9b>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <e4>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <ba>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <94>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <e4>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <b8>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <89>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <e5>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <9b>
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <9b>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <e5>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <9b>
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <9b>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <e4>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <ba>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <94>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <e4>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <b8>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <89>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <e5>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <9b>
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <9b>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <e5>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <9b>
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <9b>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <e4>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <ba>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <94>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x,
+## x$y, : conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for
+## <e4>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x,
+## x$y, : conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for
+## <b8>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x,
+## x$y, : conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for
+## <89>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x,
+## x$y, : conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for
+## <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x,
+## x$y, : conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for
+## <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x,
+## x$y, : conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for
+## <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x,
+## x$y, : conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for
+## <e5>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x,
+## x$y, : conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for
+## <9b>
+
+## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x,
+## x$y, : conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for
+## <9b>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x,
+## x$y, : conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for
+## <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x,
+## x$y, : conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for
+## <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x,
+## x$y, : conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for
+## <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x,
+## x$y, : conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for
+## <e5>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x,
+## x$y, : conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for
+## <9b>
+
+## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x,
+## x$y, : conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for
+## <9b>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x,
+## x$y, : conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for
+## <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x,
+## x$y, : conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for
+## <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x,
+## x$y, : conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for
+## <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x,
+## x$y, : conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for
+## <e4>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x,
+## x$y, : conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for
+## <ba>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x,
+## x$y, : conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for
+## <94>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x,
+## x$y, : conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for
+## <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x,
+## x$y, : conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for
+## <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x,
+## x$y, : conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for
+## <88>
+\end{verbatim}
+
+\includegraphics{TrendD_files/figure-latex/btc-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+  \CommentTok{# geom_text(aes(label=ifelse(PredictResult == 0, "", ifelse(PredictResult == 1, Long, Short))), hjust=0, vjust=-2, size=3) +}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{ETH Day Predict}\label{eth-day-predict}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{eth_usdt <-}\StringTok{ }\NormalTok{xlsx_df }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{filter}\NormalTok{(Pair1 }\OperatorTok{==}\StringTok{ "ETHUSDT"}\NormalTok{ )}
+\CommentTok{# View(eth_usdt)}
+
+\NormalTok{eth_predict_total <-}\StringTok{ }\NormalTok{eth_usdt }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{filter}\NormalTok{(PredictResult }\OperatorTok{!=}\StringTok{ }\DecValTok{0}\NormalTok{)}
+\NormalTok{eth_precision_rate <-}\StringTok{ }\NormalTok{(eth_predict_total }\OperatorTok{%>%}\StringTok{ }
+\StringTok{                         }\KeywordTok{filter}\NormalTok{(PredictIsCorrect }\OperatorTok{==}\StringTok{ }\DecValTok{1}\NormalTok{) }\OperatorTok{%>%}\StringTok{ }
+\StringTok{                         }\KeywordTok{count}\NormalTok{()}
+\NormalTok{                      )}\OperatorTok{/}\NormalTok{(eth_predict_total }\OperatorTok{%>%}\StringTok{ }\KeywordTok{count}\NormalTok{())}
+
+\KeywordTok{ggplot}\NormalTok{(eth_usdt, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ CreateDate, }\DataTypeTok{y =}\NormalTok{ ClosePrice)) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{geom_line}\NormalTok{() }\OperatorTok{+}
+\StringTok{  }\KeywordTok{geom_point}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{fill =} \KeywordTok{factor}\NormalTok{(PredictIsCorrect), }\DataTypeTok{shape =} \KeywordTok{factor}\NormalTok{(PredictResult)), }
+             \DataTypeTok{size=}\DecValTok{4}\NormalTok{,}
+             \DataTypeTok{stroke=}\DecValTok{0}\NormalTok{) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{scale_fill_manual}\NormalTok{(}\DataTypeTok{values =}\NormalTok{ color_flag, }\DataTypeTok{name =} \StringTok{"IsCorrect"}\NormalTok{, }\DataTypeTok{labels =} \KeywordTok{c}\NormalTok{(}\StringTok{'Wrong'}\NormalTok{, }\StringTok{'Unknow'}\NormalTok{, }\StringTok{'Correct'}\NormalTok{)) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{scale_shape_manual}\NormalTok{(}\DataTypeTok{values =}\NormalTok{ shape_flag, }\DataTypeTok{name =} \StringTok{"PredictTrend"}\NormalTok{, }\DataTypeTok{labels =} \KeywordTok{c}\NormalTok{(}\StringTok{'Down'}\NormalTok{, }\StringTok{'Unknow'}\NormalTok{, }\StringTok{'Up'}\NormalTok{)) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{geom_label_repel}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{label=}\KeywordTok{ifelse}\NormalTok{(PredictResult }\OperatorTok{==}\StringTok{ }\DecValTok{0}\NormalTok{, }
+                                    \StringTok{""}\NormalTok{, }
+                                    \KeywordTok{ifelse}\NormalTok{(PredictResult }\OperatorTok{==}\StringTok{ }\DecValTok{1}\NormalTok{, }
+                                           \KeywordTok{round}\NormalTok{(Long, }\DecValTok{1}\NormalTok{), }
+                                           \KeywordTok{round}\NormalTok{(Short, }\DecValTok{1}\NormalTok{)))),}
+                   \DataTypeTok{force =} \DecValTok{5}\NormalTok{,}
+                   \DataTypeTok{box.padding =} \DecValTok{0}\NormalTok{,}
+                   \DataTypeTok{point.padding =} \FloatTok{0.6}\NormalTok{) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{x =} \StringTok{"Date"}\NormalTok{, }\DataTypeTok{y =} \StringTok{"Price"}\NormalTok{) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{guides}\NormalTok{(}\DataTypeTok{fill =} \KeywordTok{guide_legend}\NormalTok{(}\DataTypeTok{override.aes =} \KeywordTok{list}\NormalTok{(}\DataTypeTok{shape=}\DecValTok{21}\NormalTok{)), }\DataTypeTok{Precision =} \KeywordTok{guide_legend}\NormalTok{(}\DataTypeTok{title =} \StringTok{"Precision"}\NormalTok{)) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{ggtitle}\NormalTok{(}\KeywordTok{paste}\NormalTok{(}\StringTok{"ETH_DayPredict:"}\NormalTok{, eth_precision_rate))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <e4>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <b8>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <89>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <e5>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <9b>
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <9b>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <e5>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <9b>
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <9b>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <e4>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <ba>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <94>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <e4>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <b8>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <89>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <e5>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <9b>
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <9b>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <e5>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <9b>
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <9b>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <e4>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <ba>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <94>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <e4>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <b8>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <89>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <e5>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <9b>
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <9b>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <e5>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <9b>
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <9b>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <e4>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <ba>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <94>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <e4>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <b8>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <89>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <e5>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <9b>
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <9b>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <e5>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <9b>
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <9b>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <e4>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <ba>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <94>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <e4>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <b8>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <89>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <e5>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <9b>
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <9b>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <e5>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <9b>
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <9b>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <e4>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <ba>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <94>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <e4>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <b8>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <89>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <e5>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <9b>
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <9b>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <e5>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <9b>
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <9b>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <e4>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <ba>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <94>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <e4>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <b8>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <89>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <e5>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <9b>
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <9b>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <e5>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <9b>
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <9b>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <e4>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <ba>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <94>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <e4>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <b8>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <89>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <e5>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <9b>
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <9b>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <e5>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <9b>
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <9b>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <e4>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <ba>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <94>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <e4>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <b8>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <89>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <e5>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <9b>
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <9b>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <e5>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <9b>
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <9b>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <e4>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <ba>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <94>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <e4>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <b8>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <89>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <e5>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <9b>
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <9b>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <e5>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <9b>
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <9b>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <e4>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <ba>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <94>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <e4>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <b8>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <89>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <e5>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <9b>
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <9b>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <e5>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <9b>
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <9b>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <e4>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <ba>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <94>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <e4>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <b8>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <89>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <e5>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <9b>
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <9b>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <e5>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <9b>
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <9b>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <e4>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <ba>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <94>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <e4>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <b8>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <89>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <e5>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <9b>
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <9b>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <e5>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <9b>
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <9b>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <e4>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <ba>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <94>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x,
+## x$y, : conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for
+## <e4>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x,
+## x$y, : conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for
+## <b8>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x,
+## x$y, : conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for
+## <89>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x,
+## x$y, : conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for
+## <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x,
+## x$y, : conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for
+## <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x,
+## x$y, : conversion failure on '銝� 15' in 'mbcsToSbcs': dot substituted for
+## <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x,
+## x$y, : conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for
+## <e5>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x,
+## x$y, : conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for
+## <9b>
+
+## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x,
+## x$y, : conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for
+## <9b>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x,
+## x$y, : conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for
+## <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x,
+## x$y, : conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for
+## <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x,
+## x$y, : conversion failure on '�� 01' in 'mbcsToSbcs': dot substituted for
+## <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x,
+## x$y, : conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for
+## <e5>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x,
+## x$y, : conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for
+## <9b>
+
+## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x,
+## x$y, : conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for
+## <9b>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x,
+## x$y, : conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for
+## <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x,
+## x$y, : conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for
+## <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x,
+## x$y, : conversion failure on '�� 15' in 'mbcsToSbcs': dot substituted for
+## <88>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x,
+## x$y, : conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for
+## <e4>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x,
+## x$y, : conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for
+## <ba>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x,
+## x$y, : conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for
+## <94>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x,
+## x$y, : conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for
+## <e6>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x,
+## x$y, : conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for
+## <9c>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x,
+## x$y, : conversion failure on '鈭� 01' in 'mbcsToSbcs': dot substituted for
+## <88>
+\end{verbatim}
+
+\includegraphics{TrendD_files/figure-latex/eth-1.pdf}
+
+
+\end{document}
