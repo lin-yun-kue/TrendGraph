@@ -1,0 +1,70 @@
+---
+title: "TrendH_Interactive"
+output: 
+  html_document:
+    code_folding: hide
+---
+
+```{r setup, include=FALSE}
+library("readxl")
+library("dygraphs")
+library("magrittr")
+library("dplyr")
+library("highcharter")
+
+xlsx_file <- './PricePredictH.xlsx'
+xlsx_df <- read_excel(xlsx_file)
+View(xlsx_df)
+```
+
+## BTC
+
+```{r, warning=FALSE}
+btc <- xlsx_df %>% 
+  filter(Pair1 == "BTCUSDT" 
+         #& PredictResult != 0 
+         )
+
+btc_predict_total <- btc %>% 
+  filter(PredictResult != 0)
+btc_precision_rate <- (btc_predict_total %>% 
+                         filter(PredictIsCorrect == 1) %>% 
+                         count()
+)/(btc_predict_total %>% count())
+
+
+highchart(type = "stock") %>% 
+  hc_title(text = paste("BTC_HourPredict:", btc_precision_rate)) %>% 
+  hc_yAxis_multiples(
+    create_yaxis(3, heights = c(2, 1, 1))
+  ) %>% 
+  hc_add_series_times_values(dates = btc$CreateDate, values = btc$ClosePrice, yAxis = 0, name = "Price") %>% 
+  hc_add_series_times_values(dates = btc$CreateDate,  values = btc$PredictIsCorrect, yAxis = 1, name = "IsCorrect") %>% 
+  hc_add_series_times_values(dates = btc$CreateDate, values = as.numeric(btc$PredictRate), yAxis = 2, name = "PredicRate")
+
+```
+
+## ETH
+```{r, warning=FALSE}
+eth <- xlsx_df %>% 
+  filter(Pair1 == "ETHUSDT" 
+         #& PredictResult != 0
+         )
+
+eth_predict_total <- eth %>% 
+  filter(PredictResult != 0)
+eth_precision_rate <- (eth_predict_total %>% 
+                         filter(PredictIsCorrect == 1) %>% 
+                         count()
+)/(eth_predict_total %>% count())
+
+
+highchart(type = "stock") %>% 
+  hc_title(text = paste("ETH_HourPredict:", eth_precision_rate)) %>% 
+  hc_yAxis_multiples(
+    create_yaxis(3, heights = c(2, 1, 1))
+  ) %>% 
+  hc_add_series_times_values(dates = eth$CreateDate, values = eth$ClosePrice, yAxis = 0, name = "Price") %>% 
+  hc_add_series_times_values(dates = eth$CreateDate,  values = eth$PredictIsCorrect, yAxis = 1, name = "IsCorrect") %>% 
+  hc_add_series_times_values(dates = eth$CreateDate, values = as.numeric(eth$PredictRate), yAxis = 2, name = "PredicRate")
+```

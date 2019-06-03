@@ -15,6 +15,7 @@ library("ggrepel", lib.loc="~/R/win-library/3.5")
 
 xlsx_file <- './PricePredictH.xlsx'
 xlsx_df <- read_excel(xlsx_file)
+View(xlsx_df)
 ```
 
 ## BTC Hour Predict

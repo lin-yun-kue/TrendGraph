@@ -14,6 +14,7 @@ library("dplyr", lib.loc="~/R/win-library/3.5")
 library("ggrepel", lib.loc="~/R/win-library/3.5")
 xlsx_file <- './PricePredictD.xlsx'
 xlsx_df <- read_excel(xlsx_file)
+View(xlsx_df)
 ```
 
 ## BTC Day Predict
